@@ -1,6 +1,7 @@
 package com.sales.cleanarchitecturenoteapp.ui.theme
 
 import android.app.Activity
+import android.hardware.lights.Light
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -22,7 +23,11 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
+    primary = White,
+    background = DarkGray,
+    onBackground = White,
+    surface = LightBlue,
+    onSurface = DarkGray,
     secondary = PurpleGrey40,
     tertiary = Pink40
 
@@ -35,6 +40,7 @@ private val LightColorScheme = lightColorScheme(
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
     */
+
 )
 
 @Composable
