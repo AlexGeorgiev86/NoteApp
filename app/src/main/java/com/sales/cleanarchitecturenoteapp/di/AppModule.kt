@@ -2,7 +2,6 @@ package com.sales.cleanarchitecturenoteapp.di
 
 import android.app.Application
 import androidx.room.Room
-import com.sales.cleanarchitecturenoteapp.feature_note.data.data_source.NoteDao
 import com.sales.cleanarchitecturenoteapp.feature_note.data.data_source.NoteDatabase
 import com.sales.cleanarchitecturenoteapp.feature_note.data.data_source.NoteDatabase.Companion.DATABASE_NAME
 import com.sales.cleanarchitecturenoteapp.feature_note.data.repository.NoteRepositoryImpl
@@ -12,6 +11,8 @@ import com.sales.cleanarchitecturenoteapp.feature_note.domain.use_case.DeleteNot
 import com.sales.cleanarchitecturenoteapp.feature_note.domain.use_case.GetNote
 import com.sales.cleanarchitecturenoteapp.feature_note.domain.use_case.GetNotes
 import com.sales.cleanarchitecturenoteapp.feature_note.domain.use_case.NoteUseCases
+import com.sales.cleanarchitecturenoteapp.utilities.connectivity.ConnectivityObserver
+import com.sales.cleanarchitecturenoteapp.utilities.connectivity.NetworkConnectivityObserver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,5 +48,11 @@ object AppModule {
             addNote = AddNote(repository),
             getNote = GetNote(repository),
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetowrkConnectivityObserver(app: Application): ConnectivityObserver {
+        return NetworkConnectivityObserver(app)
     }
 }

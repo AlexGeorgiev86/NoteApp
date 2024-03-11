@@ -8,8 +8,13 @@ import com.sales.cleanarchitecturenoteapp.feature_note.domain.model.Note
 import com.sales.cleanarchitecturenoteapp.feature_note.domain.use_case.NoteUseCases
 import com.sales.cleanarchitecturenoteapp.feature_note.presentation.util.NoteOrder
 import com.sales.cleanarchitecturenoteapp.feature_note.presentation.util.OrderType
+import com.sales.cleanarchitecturenoteapp.utilities.connectivity.ConnectivityObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -17,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotesViewModel @Inject constructor(
-    private val noteUseCases: NoteUseCases
+    private val noteUseCases: NoteUseCases,
+    private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
 
     private val _state = mutableStateOf(NotesState())
@@ -27,7 +33,15 @@ class NotesViewModel @Inject constructor(
 
     private var recentlyDeletedNote: Note? = null
 
+    private val _networkStatus = MutableStateFlow<ConnectivityObserver.Status?>(null)
+    val networkStatus: StateFlow<ConnectivityObserver.Status?> = _networkStatus.asStateFlow()
+
     init {
+        viewModelScope.launch {
+            connectivityObserver.observe().collectLatest { status ->
+                _networkStatus.value = status
+            }
+        }
         getNotes(NoteOrder.Date(OrderType.Descending))
     }
 

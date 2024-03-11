@@ -5,7 +5,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
@@ -32,21 +30,20 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sales.cleanarchitecturenoteapp.feature_note.presentation.notes.components.NoteItem
 import com.sales.cleanarchitecturenoteapp.feature_note.presentation.notes.components.OrderSection
 import com.sales.cleanarchitecturenoteapp.feature_note.presentation.util.Screen
+import com.sales.cleanarchitecturenoteapp.utilities.connectivity.ConnectivityObserver
 import kotlinx.coroutines.launch
 
 @Composable
@@ -55,8 +52,32 @@ fun NotesScreen(
     viewModel: NotesViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
+    val networkStatus by viewModel.networkStatus.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = networkStatus) {
+        snackbarHostState.showSnackbar(
+            message = "Network status: $networkStatus"
+        )
+
+        when (networkStatus) {
+            ConnectivityObserver.Status.Available -> {
+            }
+
+            ConnectivityObserver.Status.Unavailable -> {
+            }
+
+            ConnectivityObserver.Status.Losing -> {
+            }
+
+            ConnectivityObserver.Status.Lost -> {
+
+            }
+
+            else -> {}
+        }
+    }
 
     Scaffold(
         floatingActionButton = {
