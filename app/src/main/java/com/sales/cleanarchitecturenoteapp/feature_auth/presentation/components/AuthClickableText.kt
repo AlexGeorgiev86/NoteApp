@@ -11,7 +11,8 @@ import com.sales.cleanarchitecturenoteapp.ui.theme.GoodOrange
 
 @Composable
 fun AuthClickableText(
-    onTextSelected: (String) -> Unit
+    onTextSelected: (String) -> Unit,
+    text: String
 ) {
     val termsOfUse = stringResource(id = R.string.terms_of_use)
     val privacyPolicy = stringResource(id = R.string.privacy_policy)
