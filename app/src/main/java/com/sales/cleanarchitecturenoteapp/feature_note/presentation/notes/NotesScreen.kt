@@ -42,8 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sales.cleanarchitecturenoteapp.feature_note.presentation.notes.components.NoteItem
 import com.sales.cleanarchitecturenoteapp.feature_note.presentation.notes.components.OrderSection
-import com.sales.cleanarchitecturenoteapp.feature_note.presentation.util.Screen
-import com.sales.cleanarchitecturenoteapp.utilities.connectivity.ConnectivityObserver
+import com.sales.cleanarchitecturenoteapp.navigation.Screen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -60,7 +59,7 @@ fun NotesScreen(
         snackbarHostState.showSnackbar(
             message = "Network status: $networkStatus"
         )
-
+/*
         when (networkStatus) {
             ConnectivityObserver.Status.Available -> {
             }
@@ -76,7 +75,7 @@ fun NotesScreen(
             }
 
             else -> {}
-        }
+        }*/
     }
 
     Scaffold(
