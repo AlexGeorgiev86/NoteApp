@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.ImeAction
 import com.sales.cleanarchitecturenoteapp.ui.theme.GoodOrange
 import com.sales.cleanarchitecturenoteapp.ui.theme.LightGray
 
@@ -25,7 +26,7 @@ fun AuthTextField(labelValue: String, icon: ImageVector, ) {
         value = textValue,
         label = { Text(text = labelValue) },
         onValueChange = { textValue = it },
-        keyboardOptions = KeyboardOptions.Default,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         leadingIcon = { Icon(imageVector = icon, contentDescription = "") },
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = LightGray,
@@ -33,6 +34,8 @@ fun AuthTextField(labelValue: String, icon: ImageVector, ) {
             focusedBorderColor = GoodOrange,
             focusedLabelColor = GoodOrange,
             cursorColor = GoodOrange
-        )
+        ),
+        singleLine = true,
+        maxLines = 1
     )
 }

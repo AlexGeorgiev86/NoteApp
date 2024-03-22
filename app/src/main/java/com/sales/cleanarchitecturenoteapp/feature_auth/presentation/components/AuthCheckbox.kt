@@ -24,6 +24,6 @@ fun AuthCheckbox(textValue: String, onTextSelected: (String) -> Unit) {
 
         Checkbox(checked = checkedState, onCheckedChange = { checkedState != checkedState })
 
-        AuthClickableText(text = textValue, onTextSelected = onTextSelected)
+        TermAndPolicyClickableText(text = textValue, onTextSelected = onTextSelected)
     }
 }

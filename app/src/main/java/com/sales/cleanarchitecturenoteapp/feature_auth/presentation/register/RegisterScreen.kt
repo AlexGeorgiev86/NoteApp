@@ -22,9 +22,9 @@ import com.sales.cleanarchitecturenoteapp.R
 import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.SharedAuthViewModel
 import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.AuthButton
 import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.AuthCheckbox
+import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.AuthClickableText
 import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.AuthTextField
 import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.DividerText
-import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.LoginClickableText
 import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.NormalText
 import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.PasswordTextField
 import com.sales.cleanarchitecturenoteapp.navigation.Screen
@@ -76,7 +76,7 @@ fun RegisterScreen(
 
             DividerText()
 
-            LoginClickableText(){
+            AuthClickableText(tryingToLogin = true){
                 navController.navigate(Screen.LoginScreen.route)
             }
         }

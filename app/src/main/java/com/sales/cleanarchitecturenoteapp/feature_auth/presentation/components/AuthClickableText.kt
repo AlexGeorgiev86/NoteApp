@@ -1,42 +1,49 @@
 package com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.sp
 import com.sales.cleanarchitecturenoteapp.R
 import com.sales.cleanarchitecturenoteapp.ui.theme.GoodOrange
 
 @Composable
 fun AuthClickableText(
-    onTextSelected: (String) -> Unit,
-    text: String
+    tryingToLogin: Boolean,
+    onTextSelected: (String) -> Unit
 ) {
-    val termsOfUse = stringResource(id = R.string.terms_of_use)
-    val privacyPolicy = stringResource(id = R.string.privacy_policy)
+    val unclickableText = if(tryingToLogin) stringResource(id = R.string.go_to_login) else stringResource(id = R.string.go_to_register)
+    val clickableText = if(tryingToLogin) stringResource(id = R.string.login) else stringResource(id = R.string.register)
     val annotatedString = buildAnnotatedString {
-        append("By continuing you accept our ")
-        withStyle(style = SpanStyle(color = GoodOrange)){
-            pushStringAnnotation(tag = privacyPolicy, annotation = privacyPolicy)
-            append(privacyPolicy)
+        append(unclickableText)
+        withStyle(style = SpanStyle(color = GoodOrange)) {
+            pushStringAnnotation(tag = clickableText, annotation = clickableText)
+            append(clickableText)
         }
-        append(" and ")
-        withStyle(style = SpanStyle(color = GoodOrange)){
-            pushStringAnnotation(tag = termsOfUse, annotation = termsOfUse)
-            append(termsOfUse)
-        }
-
     }
 
-    ClickableText(text = annotatedString ) { offset ->
+    ClickableText(
+        text = annotatedString,
+        modifier = Modifier.fillMaxWidth(),
+        style = TextStyle(
+            fontSize = 21.sp,
+            fontWeight = FontWeight.Normal,
+            textAlign = TextAlign.Center
+        )
+    ) { offset ->
         annotatedString.getStringAnnotations(offset, offset)
             .firstOrNull()?.also { span ->
-                if (span.item == termsOfUse || span.item == privacyPolicy ) {
+                if (span.item == clickableText) {
                     onTextSelected(span.item)
                 }
             }
-
     }
 }

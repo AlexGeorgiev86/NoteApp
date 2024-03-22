@@ -12,7 +12,9 @@
     <string name="terms_of_use">Terms of Use</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="go_to_login">Already have an account?\u0020 </string>
+    <string name="go_to_register">Don\'t have an account yet?\u0020 </string>
     <string name="register">Register</string>
     <string name="login">Login</string>
+    <string name="forgot_password">Forgot password?</string>
     <string name="terms_and_conditions">By continuing you accept our Privacy Policy and Terms of Use</string>
 </resources>
