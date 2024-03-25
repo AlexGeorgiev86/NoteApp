@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AuthCheckbox(textValue: String, onTextSelected: (String) -> Unit) {
+fun AuthCheckbox(onTextSelected: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -24,6 +24,6 @@ fun AuthCheckbox(textValue: String, onTextSelected: (String) -> Unit) {
 
         Checkbox(checked = checkedState, onCheckedChange = { checkedState != checkedState })
 
-        TermAndPolicyClickableText(text = textValue, onTextSelected = onTextSelected)
+        TermAndPolicyClickableText(onTextSelected = onTextSelected)
     }
 }

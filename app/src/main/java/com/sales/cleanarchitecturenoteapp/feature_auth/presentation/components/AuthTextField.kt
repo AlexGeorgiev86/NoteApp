@@ -14,28 +14,38 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.ImeAction
-import com.sales.cleanarchitecturenoteapp.ui.theme.GoodOrange
+import com.sales.cleanarchitecturenoteapp.ui.theme.Active
 import com.sales.cleanarchitecturenoteapp.ui.theme.LightGray
 
 @Composable
-fun AuthTextField(labelValue: String, icon: ImageVector, ) {
+fun AuthTextField(
+    labelValue: String,
+    icon: ImageVector,
+    errorStatus: Boolean,
+    onTextSelected: (String) -> Unit
+) {
+
     var textValue by remember { mutableStateOf("") }
 
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),
         value = textValue,
         label = { Text(text = labelValue) },
-        onValueChange = { textValue = it },
+        onValueChange = {
+            textValue = it
+            onTextSelected(it)
+        },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         leadingIcon = { Icon(imageVector = icon, contentDescription = "") },
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = LightGray,
             unfocusedContainerColor = LightGray,
-            focusedBorderColor = GoodOrange,
-            focusedLabelColor = GoodOrange,
-            cursorColor = GoodOrange
+            focusedBorderColor = Active,
+            focusedLabelColor = Active,
+            cursorColor = Active
         ),
         singleLine = true,
-        maxLines = 1
+        maxLines = 1,
+        isError = !errorStatus
     )
 }

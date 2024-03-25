@@ -25,11 +25,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.sales.cleanarchitecturenoteapp.R
-import com.sales.cleanarchitecturenoteapp.ui.theme.GoodOrange
+import com.sales.cleanarchitecturenoteapp.ui.theme.Active
 import com.sales.cleanarchitecturenoteapp.ui.theme.LightGray
 
 @Composable
-fun PasswordTextField(labelValue: String, icon: ImageVector) {
+fun PasswordTextField(
+    labelValue: String,
+    icon: ImageVector,
+    errorStatus: Boolean,
+    onTextSelected: (String) -> Unit
+) {
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     val localFocusManager = LocalFocusManager.current
@@ -38,12 +43,15 @@ fun PasswordTextField(labelValue: String, icon: ImageVector) {
         modifier = Modifier.fillMaxWidth(),
         value = password,
         label = { Text(text = labelValue) },
-        onValueChange = { password = it },
+        onValueChange = {
+            password = it
+            onTextSelected(it)
+        },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
             imeAction = ImeAction.Done
         ),
-        keyboardActions = KeyboardActions{
+        keyboardActions = KeyboardActions {
             localFocusManager.clearFocus()
         },
         singleLine = true,
@@ -52,9 +60,9 @@ fun PasswordTextField(labelValue: String, icon: ImageVector) {
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = LightGray,
             unfocusedContainerColor = LightGray,
-            focusedBorderColor = GoodOrange,
-            focusedLabelColor = GoodOrange,
-            cursorColor = GoodOrange
+            focusedBorderColor = Active,
+            focusedLabelColor = Active,
+            cursorColor = Active
         ),
         trailingIcon = {
             val iconImage = if (passwordVisible) {
@@ -73,6 +81,7 @@ fun PasswordTextField(labelValue: String, icon: ImageVector) {
                 Icon(imageVector = iconImage, contentDescription = description)
             }
         },
+        isError = !errorStatus,
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
     )
 }

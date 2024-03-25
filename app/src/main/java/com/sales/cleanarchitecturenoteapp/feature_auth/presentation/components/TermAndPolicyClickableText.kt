@@ -7,23 +7,22 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import com.sales.cleanarchitecturenoteapp.R
-import com.sales.cleanarchitecturenoteapp.ui.theme.GoodOrange
+import com.sales.cleanarchitecturenoteapp.ui.theme.Active
 
 @Composable
 fun TermAndPolicyClickableText(
-    onTextSelected: (String) -> Unit,
-    text: String
+    onTextSelected: (String) -> Unit
 ) {
     val termsOfUse = stringResource(id = R.string.terms_of_use)
     val privacyPolicy = stringResource(id = R.string.privacy_policy)
     val annotatedString = buildAnnotatedString {
         append("By continuing you accept our ")
-        withStyle(style = SpanStyle(color = GoodOrange)){
+        withStyle(style = SpanStyle(color = Active)){
             pushStringAnnotation(tag = privacyPolicy, annotation = privacyPolicy)
             append(privacyPolicy)
         }
         append(" and ")
-        withStyle(style = SpanStyle(color = GoodOrange)){
+        withStyle(style = SpanStyle(color = Active)){
             pushStringAnnotation(tag = termsOfUse, annotation = termsOfUse)
             append(termsOfUse)
         }

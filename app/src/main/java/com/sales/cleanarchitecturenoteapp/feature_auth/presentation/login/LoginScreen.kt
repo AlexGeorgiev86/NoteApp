@@ -26,6 +26,7 @@ import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.D
 import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.NormalText
 import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.PasswordTextField
 import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.UnderlinedText
+import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.register.UIEvent
 import com.sales.cleanarchitecturenoteapp.navigation.Screen
 
 @Composable
@@ -50,11 +51,19 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(20.dp))
             AuthTextField(
                 labelValue = stringResource(id = R.string.email),
-                icon = Icons.Default.Email
+                icon = Icons.Default.Email,
+                errorStatus = false,
+                onTextSelected = {
+
+                }
             )
             PasswordTextField(
                 labelValue = stringResource(id = R.string.password),
-                icon = Icons.Default.Lock
+                icon = Icons.Default.Lock,
+                errorStatus = false,
+                onTextSelected = {
+
+                }
             )
             Spacer(modifier = Modifier.height(40.dp))
             UnderlinedText(
@@ -63,7 +72,9 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.height(40.dp))
 
-            AuthButton(stringResource(id = R.string.login))
+            AuthButton(stringResource(id = R.string.login)){
+
+            }
             DividerText()
 
             AuthClickableText(tryingToLogin = false){

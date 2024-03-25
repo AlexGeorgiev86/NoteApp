@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import com.sales.cleanarchitecturenoteapp.R
-import com.sales.cleanarchitecturenoteapp.ui.theme.GoodOrange
+import com.sales.cleanarchitecturenoteapp.ui.theme.Active
 
 @Composable
 fun AuthClickableText(
@@ -24,7 +24,7 @@ fun AuthClickableText(
     val clickableText = if(tryingToLogin) stringResource(id = R.string.login) else stringResource(id = R.string.register)
     val annotatedString = buildAnnotatedString {
         append(unclickableText)
-        withStyle(style = SpanStyle(color = GoodOrange)) {
+        withStyle(style = SpanStyle(color = Active)) {
             pushStringAnnotation(tag = clickableText, annotation = clickableText)
             append(clickableText)
         }

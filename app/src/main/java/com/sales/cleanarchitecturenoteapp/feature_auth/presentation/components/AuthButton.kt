@@ -17,18 +17,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sales.cleanarchitecturenoteapp.ui.theme.GoodOrange
-import com.sales.cleanarchitecturenoteapp.ui.theme.RedOrange
+import com.sales.cleanarchitecturenoteapp.ui.theme.Active
+import com.sales.cleanarchitecturenoteapp.ui.theme.BabyBlue
 
 @Composable
-fun AuthButton(value: String) {
+fun AuthButton(
+    value: String,
+    isEnabled: Boolean = false,
+    onButtonClicked: () -> Unit
+) {
     Button(
-        onClick = { /*TODO*/ },
+        onClick = { onButtonClicked() },
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(50.dp),
-        colors = ButtonDefaults.buttonColors(Color.Transparent),
-        shape = RoundedCornerShape(50.dp)
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent,
+            disabledContentColor = Color.Transparent,
+            contentColor = Color.Transparent
+        ),
+        shape = RoundedCornerShape(50.dp),
+        enabled = isEnabled
     ) {
         Box(
             contentAlignment = Alignment.Center,
@@ -36,13 +46,14 @@ fun AuthButton(value: String) {
                 .fillMaxWidth()
                 .heightIn(50.dp)
                 .background(
-                    brush = Brush.horizontalGradient(listOf(RedOrange, GoodOrange)),
+                    brush = Brush.horizontalGradient(listOf(BabyBlue, Active)),
                     shape = RoundedCornerShape(50.dp)
                 )
         ) {
             Text(
                 text = value,
                 fontSize = 18.sp,
+                color = Color.Black,
                 fontWeight = FontWeight.Bold
             )
 

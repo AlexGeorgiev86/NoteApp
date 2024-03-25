@@ -1,5 +1,6 @@
 package com.sales.cleanarchitecturenoteapp.feature_auth.presentation.register
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,7 +36,7 @@ fun RegisterScreen(
     navController: NavHostController,
     onRegister: () -> Unit
 ) {
-
+Log.d("ALexx", "RegisterScreen recomposed")
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = Modifier
@@ -52,31 +53,51 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(10.dp))
             AuthTextField(
                 labelValue = stringResource(id = R.string.first_name),
-                icon = Icons.Default.AccountCircle
+                icon = Icons.Default.AccountCircle,
+                errorStatus = viewModel.registrationUIState.value.firstNameError,
+                onTextSelected = {
+                    viewModel.onEvent(UIEvent.FirstNameChanged(it))
+                }
             )
             AuthTextField(
                 labelValue = stringResource(id = R.string.last_name),
-                icon = Icons.Default.AccountCircle
+                icon = Icons.Default.AccountCircle,
+                errorStatus = viewModel.registrationUIState.value.lastNameError,
+                onTextSelected = {
+                    viewModel.onEvent(UIEvent.LastNameChanged(it))
+                }
             )
             AuthTextField(
                 labelValue = stringResource(id = R.string.email),
-                icon = Icons.Default.Email
+                icon = Icons.Default.Email,
+                errorStatus = viewModel.registrationUIState.value.emailError,
+                onTextSelected = {
+                    viewModel.onEvent(UIEvent.EmailChanged(it))
+                }
             )
             PasswordTextField(
                 labelValue = stringResource(id = R.string.password),
-                icon = Icons.Default.Lock
+                icon = Icons.Default.Lock,
+                errorStatus = viewModel.registrationUIState.value.passwordError,
+                onTextSelected = {
+                    viewModel.onEvent(UIEvent.PasswordChanged(it))
+                }
             )
-            
-            AuthCheckbox(textValue = stringResource(id = R.string.terms_and_conditions)){
+
+            AuthCheckbox() {
                 navController.navigate("${Screen.TermsAndConditionsScreen.route}/$it")
             }
             Spacer(modifier = Modifier.height(70.dp))
 
-            AuthButton(stringResource(id = R.string.register))
+            AuthButton(
+                stringResource(id = R.string.register),
+            ) {
+                viewModel.onEvent(UIEvent.RegisterButtonClicked)
+            }
 
             DividerText()
 
-            AuthClickableText(tryingToLogin = true){
+            AuthClickableText(tryingToLogin = true) {
                 navController.navigate(Screen.LoginScreen.route)
             }
         }
