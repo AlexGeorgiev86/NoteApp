@@ -64,11 +64,7 @@ fun NavGraph() {
                 LoginScreen(
                     navController = navController,
                     viewModel = viewModel
-                ) {
-                    navController.navigate("notes") {
-                        popUpTo("auth") { inclusive = true }
-                    }
-                }
+                )
             }
             composable(route = Screen.RegisterScreen.route) {
                 val viewModel =
@@ -76,9 +72,7 @@ fun NavGraph() {
                 RegisterScreen(
                     viewModel = viewModel,
                     navController = navController
-                ) {
-
-                }
+                )
             }
             composable(
                 route = "${Screen.TermsAndConditionsScreen.route}/{clickedValue}",

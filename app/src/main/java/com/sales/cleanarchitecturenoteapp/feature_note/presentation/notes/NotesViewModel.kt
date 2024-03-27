@@ -1,9 +1,13 @@
 package com.sales.cleanarchitecturenoteapp.feature_note.presentation.notes
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener
+import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.SharedAuthViewModel
 import com.sales.cleanarchitecturenoteapp.feature_note.domain.model.Note
 import com.sales.cleanarchitecturenoteapp.feature_note.domain.use_case.NoteUseCases
 import com.sales.cleanarchitecturenoteapp.feature_note.presentation.util.NoteOrder
@@ -90,4 +94,18 @@ class NotesViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun logout() {
+        FirebaseAuth.getInstance().signOut()
+        val authStateListener = AuthStateListener {
+            if (it.currentUser == null) {
+                Log.d(TAG, "sign out success")
+            } else {
+                Log.d(TAG, "sign out failed")
+            }
+        }
+    }
+
+    companion object {
+        private val TAG = NotesViewModel::class.java.simpleName
+    }
 }

@@ -1,6 +1,5 @@
 package com.sales.cleanarchitecturenoteapp.feature_auth.presentation.register
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +12,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,10 +33,14 @@ import com.sales.cleanarchitecturenoteapp.navigation.Screen
 @Composable
 fun RegisterScreen(
     viewModel: SharedAuthViewModel,
-    navController: NavHostController,
-    onRegister: () -> Unit
+    navController: NavHostController
 ) {
-Log.d("ALexx", "RegisterScreen recomposed")
+    LaunchedEffect(key1 = viewModel.onRegisterSuccess.value) {
+        if (viewModel.onRegisterSuccess.value){
+            navController.navigate(Screen.LoginScreen.route)
+        }
+    }
+
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = Modifier
@@ -56,7 +60,7 @@ Log.d("ALexx", "RegisterScreen recomposed")
                 icon = Icons.Default.AccountCircle,
                 errorStatus = viewModel.registrationUIState.value.firstNameError,
                 onTextSelected = {
-                    viewModel.onEvent(UIEvent.FirstNameChanged(it))
+                    viewModel.onRegisterEvent(RegistrationUIEvent.FirstNameChanged(it))
                 }
             )
             AuthTextField(
@@ -64,7 +68,7 @@ Log.d("ALexx", "RegisterScreen recomposed")
                 icon = Icons.Default.AccountCircle,
                 errorStatus = viewModel.registrationUIState.value.lastNameError,
                 onTextSelected = {
-                    viewModel.onEvent(UIEvent.LastNameChanged(it))
+                    viewModel.onRegisterEvent(RegistrationUIEvent.LastNameChanged(it))
                 }
             )
             AuthTextField(
@@ -72,7 +76,7 @@ Log.d("ALexx", "RegisterScreen recomposed")
                 icon = Icons.Default.Email,
                 errorStatus = viewModel.registrationUIState.value.emailError,
                 onTextSelected = {
-                    viewModel.onEvent(UIEvent.EmailChanged(it))
+                    viewModel.onRegisterEvent(RegistrationUIEvent.EmailChanged(it))
                 }
             )
             PasswordTextField(
@@ -80,20 +84,28 @@ Log.d("ALexx", "RegisterScreen recomposed")
                 icon = Icons.Default.Lock,
                 errorStatus = viewModel.registrationUIState.value.passwordError,
                 onTextSelected = {
-                    viewModel.onEvent(UIEvent.PasswordChanged(it))
+                    viewModel.onRegisterEvent(RegistrationUIEvent.PasswordChanged(it))
                 }
             )
 
-            AuthCheckbox() {
-                navController.navigate("${Screen.TermsAndConditionsScreen.route}/$it")
-            }
+            AuthCheckbox(
+                onCheckedChange = {
+                    viewModel.onRegisterEvent(RegistrationUIEvent.TermsAndPolicyCheckBox(it))
+                },
+                onTextSelected = {
+                    navController.navigate("${Screen.TermsAndConditionsScreen.route}/$it")
+                }
+            )
+
             Spacer(modifier = Modifier.height(70.dp))
 
             AuthButton(
-                stringResource(id = R.string.register),
-            ) {
-                viewModel.onEvent(UIEvent.RegisterButtonClicked)
-            }
+                value = stringResource(id = R.string.register),
+                isEnabled = viewModel.registerValidationPassed.value,
+                onButtonClicked = {
+                    viewModel.onRegisterEvent(RegistrationUIEvent.RegisterButtonClicked)
+                }
+            )
 
             DividerText()
 

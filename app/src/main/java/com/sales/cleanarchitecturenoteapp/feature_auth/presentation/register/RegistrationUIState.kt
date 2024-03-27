@@ -5,9 +5,12 @@ data class RegistrationUIState(
     val lastName: String = "",
     val email: String = "",
     val password: String = "",
+    val termsAndPolicyAccepted: Boolean = false,
+
     val firstNameError: Boolean = false,
     val lastNameError: Boolean = false,
     val emailError: Boolean = false,
     val passwordError: Boolean = false,
+    val termsAndPolicyError: Boolean = false,
 
     )

@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,15 +27,22 @@ import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.D
 import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.NormalText
 import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.PasswordTextField
 import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.components.UnderlinedText
-import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.register.UIEvent
+import com.sales.cleanarchitecturenoteapp.feature_auth.presentation.register.RegistrationUIEvent
 import com.sales.cleanarchitecturenoteapp.navigation.Screen
 
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: SharedAuthViewModel,
-    onSuccessfulLogin: () -> Unit
+    viewModel: SharedAuthViewModel
 ) {
+    LaunchedEffect(key1 = viewModel.onLoginSuccess.value) {
+        if (viewModel.onLoginSuccess.value){
+            navController.navigate("notes") {
+                popUpTo("auth") { inclusive = true }
+            }
+        }
+    }
+
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = Modifier
@@ -52,17 +60,17 @@ fun LoginScreen(
             AuthTextField(
                 labelValue = stringResource(id = R.string.email),
                 icon = Icons.Default.Email,
-                errorStatus = false,
+                errorStatus = viewModel.loginUIState.value.emailError,
                 onTextSelected = {
-
+                    viewModel.onLoginEvent(LoginUIEvent.EmailChanged(it))
                 }
             )
             PasswordTextField(
                 labelValue = stringResource(id = R.string.password),
                 icon = Icons.Default.Lock,
-                errorStatus = false,
+                errorStatus = viewModel.loginUIState.value.passwordError,
                 onTextSelected = {
-
+                    viewModel.onLoginEvent(LoginUIEvent.PasswordChanged(it))
                 }
             )
             Spacer(modifier = Modifier.height(40.dp))
@@ -72,9 +80,13 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.height(40.dp))
 
-            AuthButton(stringResource(id = R.string.login)){
-
-            }
+            AuthButton(
+                stringResource(id = R.string.login),
+                isEnabled = viewModel.loginValidationPassed.value,
+                onButtonClicked = {
+                    viewModel.onLoginEvent(LoginUIEvent.LoginButtonClicked)
+                }
+            )
             DividerText()
 
             AuthClickableText(tryingToLogin = false){

@@ -22,7 +22,12 @@ object Validator {
 
     fun validatePassword(password: String): ValidationResult {
         return ValidationResult(
-            !password.isNullOrEmpty() && password.length >= 5
+            !password.isNullOrEmpty() && password.length >= 6
+        )
+    }
+    fun validateTermsAndPolicy(status: Boolean): ValidationResult {
+        return ValidationResult(
+            status
         )
     }
 
